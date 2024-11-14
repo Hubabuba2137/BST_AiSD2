@@ -187,6 +187,64 @@ struct drzew {
             del(nastepnik);
         }
     }
+
+    void rot_l(wez*& temp) {
+           wez* p;
+           if (temp->right != nullptr) {
+               p = temp->right;
+               temp->right = p->left;
+    
+               if (p->left != nullptr) {
+                   p->left->ojciec = temp;
+               }
+    
+               p->ojciec = temp->ojciec;
+    
+               if (temp->ojciec == nullptr) {
+                   temp = p;
+               }
+    
+               else if (temp == temp->ojciec->left) {
+                   temp->ojciec->left = p;
+               }
+    
+               else {
+                   temp->ojciec->right = p;
+               }
+    
+               p->left = temp;
+               temp->ojciec = p;
+           }
+       }
+    
+       void rot_r(wez*& temp) {
+           wez* p;
+           if (temp->left != nullptr) {
+               p = temp->left;
+               temp->left = p->right;
+    
+               if (p->right != nullptr) {
+                   p->right->ojciec = temp;
+               }
+    
+               p->ojciec = temp->ojciec;
+    
+               if (temp->ojciec == nullptr) {
+                   temp = p;
+               }
+    
+               else if (temp == temp->ojciec->right) {
+                   temp->ojciec->right = p;
+               }
+    
+               else {
+                   temp->ojciec->left = p;
+               }
+    
+               p->right = temp;
+               temp->ojciec = p;
+           }
+       }
 };
 
 int main()
