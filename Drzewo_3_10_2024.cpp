@@ -2,6 +2,9 @@
 
 using namespace std;
 
+//rotacje L, R, RL, LR
+
+
 struct wez {
     wez* left;
     wez* right;
@@ -34,7 +37,7 @@ struct drzew {
             }
         }
     }
-    
+
     wez* find(wez* temp, int num) {
         int x = num;
 
@@ -61,7 +64,7 @@ struct drzew {
         return temp->val;
     }
 
-    wez* min_wsk(wez* temp){
+    wez* min_wsk(wez* temp) {
         while (temp->left != nullptr) {
             temp = temp->left;
         }
@@ -89,30 +92,30 @@ struct drzew {
             print_inorder(root->right);
         }
     }
-    
+
     void del_leaf(wez*& root) {
         if (root != nullptr) {
-            if(root->left !=nullptr){
-                if(root->left->left == nullptr && root->left->right ==nullptr){
+            if (root->left != nullptr) {
+                if (root->left->left == nullptr && root->left->right == nullptr) {
                     delete root->left;
                     root->left = nullptr;
                 }
-                else{
+                else {
                     del_leaf(root->left);
                 }
             }
 
-            if(root->right != nullptr){
-                if(root->right->left == nullptr && root->right->right == nullptr){
+            if (root->right != nullptr) {
+                if (root->right->left == nullptr && root->right->right == nullptr) {
                     delete root->right;
                     root->right = nullptr;
                 }
-                else{
+                else {
                     del_leaf(root->right);
                 }
             }
         }
-        else{
+        else {
             return;
         }
     }
@@ -121,28 +124,28 @@ struct drzew {
     wez* popr(wez* temp) {
         wez* temp_ojciec = temp->ojciec;
         if (temp->left != nullptr) {
-            return this->max_wsk(temp->left);  
-        } 
+            return this->max_wsk(temp->left);
+        }
         else {
-            while (temp_ojciec != nullptr && temp == temp_ojciec->left) { 
+            while (temp_ojciec != nullptr && temp == temp_ojciec->left) {
                 temp = temp_ojciec;
                 temp_ojciec = temp->ojciec;
             }
-            return temp_ojciec; 
+            return temp_ojciec;
         }
     }
 
     wez* nast(wez* temp) {
         wez* temp_ojciec = temp->ojciec;
         if (temp->right != nullptr) {
-            return this->min_wsk(temp->right);  
-        } 
+            return this->min_wsk(temp->right);
+        }
         else {
-            while (temp_ojciec != nullptr && temp == temp_ojciec->right) { 
+            while (temp_ojciec != nullptr && temp == temp_ojciec->right) {
                 temp = temp_ojciec;
                 temp_ojciec = temp->ojciec;
             }
-            return temp_ojciec; 
+            return temp_ojciec;
         }
     }
 
@@ -151,36 +154,36 @@ struct drzew {
         if (temp->left == nullptr && temp->right == nullptr) {//liść
             delete temp;
             temp = nullptr;
-        } 
+        }
 
         else if (temp->left != nullptr && temp->right == nullptr) {
 
-            if (temp->ojciec->left == temp){
+            if (temp->ojciec->left == temp) {
                 temp->ojciec->left = temp->left;
             }
 
-            else{
+            else {
                 temp->ojciec->right = temp->left;
             }
 
             temp->left->ojciec = temp->ojciec;
             delete temp;
             temp = nullptr;
-        } 
+        }
 
         else if (temp->right != nullptr && temp->left == nullptr) {
 
-            if (temp->ojciec->right == temp){
+            if (temp->ojciec->right == temp) {
                 temp->ojciec->right = temp->right;
             }
-            else{
+            else {
                 temp->ojciec->left = temp->right;
             }
 
             temp->right->ojciec = temp->ojciec;
             delete temp;
             temp = nullptr;
-        } 
+        }
         else {
             wez* nastepnik = this->nast(temp);
             temp->val = nastepnik->val;
@@ -189,74 +192,74 @@ struct drzew {
     }
 
     void rot_l(wez*& temp) {
-           wez* p;
-           if (temp->right != nullptr) {
-               p = temp->right;
-               temp->right = p->left;
-    
-               if (p->left != nullptr) {
-                   p->left->ojciec = temp;
-               }
-    
-               p->ojciec = temp->ojciec;
-    
-               if (temp->ojciec == nullptr) {
-                   temp = p;
-               }
-    
-               else if (temp == temp->ojciec->left) {
-                   temp->ojciec->left = p;
-               }
-    
-               else {
-                   temp->ojciec->right = p;
-               }
-    
-               p->left = temp;
-               temp->ojciec = p;
-           }
-       }
-    
-       void rot_r(wez*& temp) {
-           wez* p;
-           if (temp->left != nullptr) {
-               p = temp->left;
-               temp->left = p->right;
-    
-               if (p->right != nullptr) {
-                   p->right->ojciec = temp;
-               }
-    
-               p->ojciec = temp->ojciec;
-    
-               if (temp->ojciec == nullptr) {
-                   temp = p;
-               }
-    
-               else if (temp == temp->ojciec->right) {
-                   temp->ojciec->right = p;
-               }
-    
-               else {
-                   temp->ojciec->left = p;
-               }
-    
-               p->right = temp;
-               temp->ojciec = p;
-           }
-       }
+        wez* p;
+        if (temp->right != nullptr) {
+            p = temp->right;
+            temp->right = p->left;
+
+            if (p->left != nullptr) {
+                p->left->ojciec = temp;
+            }
+
+            p->ojciec = temp->ojciec;
+
+            if (temp->ojciec == nullptr) {
+                temp = p;
+            }
+
+            else if (temp == temp->ojciec->left) {
+                temp->ojciec->left = p;
+            }
+
+            else {
+                temp->ojciec->right = p;
+            }
+
+            p->left = temp;
+            temp->ojciec = p;
+        }
+    }
+
+    void rot_r(wez*& temp) {
+        wez* p;
+        if (temp->left != nullptr) {
+            p = temp->left;
+            temp->left = p->right;
+
+            if (p->right != nullptr) {
+                p->right->ojciec = temp;
+            }
+
+            p->ojciec = temp->ojciec;
+
+            if (temp->ojciec == nullptr) {
+                temp = p;
+            }
+
+            else if (temp == temp->ojciec->right) {
+                temp->ojciec->right = p;
+            }
+
+            else {
+                temp->ojciec->left = p;
+            }
+
+            p->right = temp;
+            temp->ojciec = p;
+        }
+    }
+
 };
 
 int main()
 {
     drzew bst;
 
-    int tab[10] = {12,6,-5,11,3,8,22,16,10,27};
+    int tab[3] = {1,2,3};
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 3; i++) {
         bst.add(bst.root, tab[i]);
     }
 
-    
     return 0;
 }
